@@ -207,9 +207,12 @@ All alerts are added to the alert array and displayed at the end.
 * Extra Modifiers Identification    (only on _transfer atm)
 * Addition Identification:
     * add()
-    * +
-    * +=
-
+    * '+'
+    * '+='
+### To run:
+```
+node Sniffer.js
+```
 Install Surya (not required but cool)
 
 npm install -g surya
