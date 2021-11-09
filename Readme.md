@@ -34,7 +34,7 @@ Extras:
     * FunctionDefinition() functions
 
 ### Explanation of development
-
+```
 This is the tree for a function on the contract hiddenMint.sol
 16
       │     ├─ type: FunctionDefinition
@@ -161,7 +161,7 @@ This is the tree for a function on the contract hiddenMint.sol
       │     ├─ isVirtual: false
       │     └─ stateMutability
       └─ kind: contract
-
+```
 ***
 We write logic to find what we want in the example case we would use
 
