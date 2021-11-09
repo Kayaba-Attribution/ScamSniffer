@@ -210,5 +210,8 @@ All alerts are added to the alert array and displayed at the end.
     * +
     * +=
 
+Install Surya (not required but cool)
 
+npm install -g surya
 
+https://github.com/ConsenSys/surya
