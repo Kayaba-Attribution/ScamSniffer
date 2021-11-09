@@ -2,9 +2,9 @@
 
 ### Dependecies:
 
-*@solidity-parser/parser
-*treeify
-*colors 
+* @solidity-parser/parser
+* treeify
+* colors 
 
 ### Installation:
 
@@ -18,17 +18,17 @@ Git clone and run:
 2. Use treeify to visualize the tree
 3. Visit all the nodes in the tree an implement our searches
 
-##### Sniffer.js
+### Sniffer.js
 
 Takes a contract file and returns the findings.
 
-Extras:
+### Extras:
 
-*node_kind is used to diferenciar the type of general node ie: interface vs contract vs library.
+* node_kind is used to diferenciar the type of general node ie: interface vs contract vs library.
 
-*uses_totalSupply is a boolean to check if the contract has the declaration of _totalSupply.
+* uses_totalSupply is a boolean to check if the contract has the declaration of _totalSupply.
 
-*Inside parse.visit() there are subfunctions based on the node:
+* Inside parse.visit() there are subfunctions based on the node:
     * ContractDefinition() library, interface, contract
     * StateVariableDeclaration() variables declarations
     * FunctionDefinition() functions
