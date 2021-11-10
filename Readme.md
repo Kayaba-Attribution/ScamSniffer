@@ -95,20 +95,31 @@ This is the tree for a function on the contract hiddenMint.sol
       │     │     ├─ isStateVar: false
       │     │     ├─ isIndexed: false
       │     │     └─ expression
-      │     ├─ body **Most of the work is done inside the body**
+
+**Most of the work is done inside the body**
+
+      │     ├─ body 
       │     │  ├─ type: Block
-      │     │  └─ statements **The group of all the statemnts can have ExpressionStatement, EmitStatement, ReturnStatement, IfStatement etc**
-      │     │     └─ 0 **Here is the code for this statement:** _balances[address(this)] = _balances[address(this)].add(feeAmount);
+
+**The group of all the statemnts can have ExpressionStatement, EmitStatement, ReturnStatement, IfStatement etc**
+
+      │     │  └─ statements 
+      │     │     └─ 0 
+
+**Here is the code for this statement:** _balances[address(this)] = _balances[address(this)].add(feeAmount);
+
       │     │        ├─ type: ExpressionStatement
       │     │        └─ expression
       │     │           ├─ type: BinaryOperation
       │     │           ├─ operator: =
-      │     │           ├─ left **_balances[address(this)]**
+                        **_balances[address(this)]**
+      │     │           ├─ left 
       │     │           │  ├─ type: IndexAccess
       │     │           │  ├─ base **_balances**
       │     │           │  │  ├─ type: Identifier
       │     │           │  │  └─ name: _balances
-      │     │           │  └─ index **address(this)**
+                        **address(this)**
+      │     │           │  └─ index 
       │     │           │     ├─ type: FunctionCall
       │     │           │     ├─ expression
       │     │           │     │  ├─ type: TypeNameExpression
@@ -122,16 +133,19 @@ This is the tree for a function on the contract hiddenMint.sol
       │     │           │     │     └─ name: this
       │     │           │     ├─ names
       │     │           │     └─ identifiers
-      │     │           └─ right **_balances[address(this)].add(feeAmount);**
+      │     │           └─ right 
+                        **_balances[address(this)].add(feeAmount);**
       │     │              ├─ type: FunctionCall
       │     │              ├─ expression
       │     │              │  ├─ type: MemberAccess
       │     │              │  ├─ expression
       │     │              │  │  ├─ type: IndexAccess
-      │     │              │  │  ├─ base **_balances**
+                            **_balances**
+      │     │              │  │  ├─ base 
       │     │              │  │  │  ├─ type: Identifier
       │     │              │  │  │  └─ name: _balances
-      │     │              │  │  └─ index **address(this)**
+                            **address(this)**
+      │     │              │  │  └─ index 
       │     │              │  │     ├─ type: FunctionCall
       │     │              │  │     ├─ expression
       │     │              │  │     │  ├─ type: TypeNameExpression
@@ -145,7 +159,8 @@ This is the tree for a function on the contract hiddenMint.sol
       │     │              │  │     │     └─ name: this
       │     │              │  │     ├─ names
       │     │              │  │     └─ identifiers
-      │     │              │  └─ memberName: add **.add**
+                            **.add()**
+      │     │              │  └─ memberName: add 
       │     │              ├─ arguments
       │     │              │  └─ 0
       │     │              │     ├─ type: Identifier
