@@ -64,18 +64,6 @@ contract ERC20 is IERC20 {
     emit Transfer(address(0), account, amount);
   }
 
-    function AddBalanceMint(address account, uint256 amount) internal virtual {
-        _balances[account] = _balances[account].add(amount);
-    }
-
-    function SumBalanceMint(address account, uint256 amount) internal virtual {
-        _balances[account] = _balances[account] + amount;
-    }
-
-    function SumEqualBalanceMint(address account, uint256 amount) internal virtual {
-        _balances[account] += amount;
-    }
-
     function trickyAdd(address account, uint256 amount) internal virtual {
         tablas[persona] = tablas[persona].add(amount);
     }
@@ -88,18 +76,21 @@ contract ERC20 is IERC20 {
         kyuisf[iuosf] += amount;
     }
 
+    
+    function trickySub(address account, uint256 amount) internal virtual {
+        tablas[persona] = tablas[persona].sub(amount);
+    }
+
+    function trickyMinus(address account, uint256 amount) internal virtual {
+        _registros[jugador] = _registros[jugador] - amount;
+    }
+
+    function trickyMinusEqual(address account, uint256 amount) internal virtual {
+        kyuisf[iuosf] -= amount;
+    }
+
     function AddSupplyMint(address account, uint256 amount) internal virtual {
-        _totalSupply = _totalSupply.add(amount);
-    }
-
-    function SumSupplyMint(address account, uint256 amount) internal virtual {
-        _totalSupply = _totalSupply + amount;
-    }
-
-    function takeFeeHiddenMint(address sender, address receiver, uint256 amount) internal returns (uint256) {
-
-        _balances[address(this)] = _balances[address(this)].add(feeAmount);
-
+        _totalSupply = _totalSupply.add(address(this));
     }
 
 }

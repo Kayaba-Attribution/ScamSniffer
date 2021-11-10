@@ -171,65 +171,128 @@ function parse(file) {
 
             if (node.type == 'FunctionDefinition' && node.name != null && node_kind == 'contract') {
 
+                let sums = 0;
+                let subs = 0;
                 for (let s of node.body.statements) {
 
                     // Search statements of the node for a 'add' operator
                     let isIndexAccess = '';
                     let indexedBase = '';
                     let indexedindex = '';
+
                     try{
                         //Check left for IndexAccess
                         isIndexAccess = (s.expression.left.type == 'IndexAccess') ? true : false;
                         indexedBase = s.expression.left.base.name;
                         indexedindex = s.expression.left.index.name;
                         if (indexedindex == undefined) { indexedindex = s.expression.left.index.type}
+
+                        sums += checkForAddition(isIndexAccess, indexedBase, indexedindex)
+                        subs += checkForSubtraction(isIndexAccess, indexedBase, indexedindex)
                     } catch (e) {
                         if (e.name != 'TypeError') {
                             console.log(`[ERROR] Left IndexAccesCheck at ${node.name}`.red)
                         }
                     }
 
-                    try {
-                        //Check right for add
-                        let isAdd = (s.expression.right.expression.memberName == 'add') ? true : false;
-                        if (isIndexAccess && isAdd) {
-                            alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and add()`.red)
+                    function checkForAddition(isIndexAccess, indexedBase, indexedindex) {
+
+                        let additions = 0;
+                        try {
+                            //Check right for add
+                            let isAdd = (s.expression.right.expression.memberName == 'add') ? true : false;
+                            if (isIndexAccess && isAdd) {
+                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and add()`.red)
+                                additions++
+                            }
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] Add() check at ${node.name}`.red)
+                            }
                         }
-                    } catch (e) {
-                        if (e.name != 'TypeError') {
-                            console.log(`[ERROR] Add() check at ${node.name}`.red)
+
+                        try {
+                            //Check right for operator +
+                            let isSum = (s.expression.right.operator == '+') ? true : false;
+                            if (isIndexAccess && isSum) {
+                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+'`.red)
+                                additions++
+                            }
+                            //let isSum = (s.expression.right.operator == '+')
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] '+' check at ${node.name}`.red)
+                            }
                         }
+
+                        try {
+                            //Check sum and var update +=
+                            let isSumUpdate = (s.expression.operator == '+=') ? true : false;
+                            if (isIndexAccess && isSumUpdate) {
+                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+='`.red)
+                                additions++
+                            }
+                            //let isSum = (s.expression.right.operator == '+')
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] '+=' check at ${node.name}`.red)
+                            }
+                        }
+
+                        return additions
                     }
 
-                    try {
-                        //Check right for operator +
-                        let isSum = (s.expression.right.operator == '+') ? true : false;
-                        if (isIndexAccess && isSum) {
-                            alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+'`.red)
-                        }
-                        //let isSum = (s.expression.right.operator == '+')
-                    } catch (e) {
-                        if (e.name != 'TypeError') {
-                            console.log(`[ERROR] Add() check at ${node.name}`.red)
-                        }
-                    }
 
-                    try {
-                        //Check sum and var update +=
-                        let isSumUpdate = (s.expression.operator == '+=') ? true : false;
-                        if (isIndexAccess && isSumUpdate) {
-                            alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+='`.red)
+                    function checkForSubtraction(isIndexAccess, indexedBase, indexedindex) {
+                        let substractions = 0;
+                        try {
+                            //Check right for sub
+                            let isSub = (s.expression.right.expression.memberName == 'sub') ? true : false;
+                            if (isIndexAccess && isSub) {
+                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and sub()`.red)
+                                substractions++
+                            }
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] sub() check at ${node.name}`.red)
+                            }
                         }
-                        //let isSum = (s.expression.right.operator == '+')
-                    } catch (e) {
-                        if (e.name != 'TypeError') {
-                            console.log(`[ERROR] Add() check at ${node.name}`.red)
+
+                        try {
+                            //Check right for operator +
+                            let isMinus = (s.expression.right.operator == '-') ? true : false;
+                            if (isIndexAccess && isMinus) {
+                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-'`.red)
+                                substractions++
+                            }
+                            //let isSum = (s.expression.right.operator == '+')
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] '-' check at ${node.name}`.red)
+                            }
                         }
+
+                        try {
+                            //Check sum and var update +=
+                            let isMinusUpdate = (s.expression.operator == '-=') ? true : false;
+                            if (isIndexAccess && isMinusUpdate) {
+                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-='`.red)
+                                substractions++
+                            }
+                            //let isSum = (s.expression.right.operator == '+')
+                        } catch (e) {
+                            if (e.name != 'TypeError') {
+                                console.log(`[ERROR] '-=' check at ${node.name}`.red)
+                            }
+                        }
+                        return substractions
                     }
                     
 
 
                 }
+                console.log(`${sums} sums | ${subs} subtractions on ${node.name}`)
+
   
 
 
@@ -266,4 +329,5 @@ function parse(file) {
 
 
 parse('contracts/hiddenMinter.sol');
+//parse('contracts/ERC20.sol');
 
