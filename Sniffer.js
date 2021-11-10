@@ -116,6 +116,16 @@ function parse(file) {
                 modifiers += m.name
             }
 
+            try {
+                let test = node.body.statements;
+            } catch (e) {
+                if (e.name != 'TypeError') {
+                    console.log(`[ERROR] at no statemetns detections at ${node.name}`.red)
+                }
+                console.log(`Using Contract as Interface ${node.name}`)
+                return
+            }
+
             // search for totalSupply getter. to be removed, is useless
             if (node.name == 'totalSupply' && node_kind== 'contract'){
                 for (let s of node.body.statements){
@@ -174,6 +184,8 @@ function parse(file) {
 
                 let sums = 0;
                 let subs = 0;
+                console.log(node.name)
+
                 for (let s of node.body.statements) {
 
                     // Search statements of the node for a 'add' operator
@@ -301,10 +313,6 @@ function parse(file) {
                 }
                 console.log(`${sums} sums | ${subs} subtractions on ${node.name}`)
 
-  
-
-
-
             }
 
             console.log(`    - ${spec} ${name}${payable}${mutating}`)
@@ -344,6 +352,6 @@ function parse(file) {
 }
 
 
-parse('contracts/hiddenMinter.sol');
+parse('contracts/test.sol');
 //parse('contracts/ERC20.sol');
 
