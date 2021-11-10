@@ -7,6 +7,7 @@ const colors = require('colors');
 function parse(file) {
     let node_kind;
     let alerts = [];
+    let info = []
     const content = fs.readFileSync(file).toString('utf-8');
     const ast = (() => {
         try {
@@ -189,6 +190,7 @@ function parse(file) {
 
                         sums += checkForAddition(isIndexAccess, indexedBase, indexedindex)
                         subs += checkForSubtraction(isIndexAccess, indexedBase, indexedindex)
+
                     } catch (e) {
                         if (e.name != 'TypeError') {
                             console.log(`[ERROR] Left IndexAccesCheck at ${node.name}`.red)
@@ -202,7 +204,7 @@ function parse(file) {
                             //Check right for add
                             let isAdd = (s.expression.right.expression.memberName == 'add') ? true : false;
                             if (isIndexAccess && isAdd) {
-                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and add()`.red)
+                                info.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and add()`.gray)
                                 additions++
                             }
                         } catch (e) {
@@ -215,7 +217,7 @@ function parse(file) {
                             //Check right for operator +
                             let isSum = (s.expression.right.operator == '+') ? true : false;
                             if (isIndexAccess && isSum) {
-                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+'`.red)
+                                info.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+'`.gray)
                                 additions++
                             }
                             //let isSum = (s.expression.right.operator == '+')
@@ -229,7 +231,7 @@ function parse(file) {
                             //Check sum and var update +=
                             let isSumUpdate = (s.expression.operator == '+=') ? true : false;
                             if (isIndexAccess && isSumUpdate) {
-                                alerts.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+='`.red)
+                                info.push(`[Addition in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '+='`.gray)
                                 additions++
                             }
                             //let isSum = (s.expression.right.operator == '+')
@@ -249,7 +251,7 @@ function parse(file) {
                             //Check right for sub
                             let isSub = (s.expression.right.expression.memberName == 'sub') ? true : false;
                             if (isIndexAccess && isSub) {
-                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and sub()`.red)
+                                info.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and sub()`.gray)
                                 substractions++
                             }
                         } catch (e) {
@@ -262,7 +264,7 @@ function parse(file) {
                             //Check right for operator +
                             let isMinus = (s.expression.right.operator == '-') ? true : false;
                             if (isIndexAccess && isMinus) {
-                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-'`.red)
+                                info.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-'`.gray)
                                 substractions++
                             }
                             //let isSum = (s.expression.right.operator == '+')
@@ -276,7 +278,7 @@ function parse(file) {
                             //Check sum and var update +=
                             let isMinusUpdate = (s.expression.operator == '-=') ? true : false;
                             if (isIndexAccess && isMinusUpdate) {
-                                alerts.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-='`.red)
+                                info.push(`[Subtraction in "${node.name}"]: IndexAccess ${indexedBase}[${indexedindex}] and '-='`.gray)
                                 substractions++
                             }
                             //let isSum = (s.expression.right.operator == '+')
@@ -290,6 +292,12 @@ function parse(file) {
                     
 
 
+                }
+                if(sums > subs){
+                    alerts.push(`[Hidden Mint] at "${node.name}" {${sums} sums | ${subs} subtractions}`.red)
+                }
+                if (sums < subs) {
+                    alerts.push(`[Hidden Burn] at "${node.name}" {${sums} sums | ${subs} subtractions}`.red)
                 }
                 console.log(`${sums} sums | ${subs} subtractions on ${node.name}`)
 
@@ -313,10 +321,18 @@ function parse(file) {
     // Print a legend for symbols being used
     let mutationSymbol = noColorOutput ? ' #' : ' #'.red;
     let payableSymbol = noColorOutput ? ' ($)' : ' ($)'.yellow;
-    let alertSymbol = noColorOutput ? ' (!!!)' : ' (!!!)'.red;
-    console.log(`${alertSymbol} Findings${alertSymbol}`)
+    let alertSymbol = noColorOutput ? ' (!!!)' : ' (!!!)'.brightRed;
+    let infoSymbol = noColorOutput ? ' (???)' : ' (???)'.gray;
+    console.log(`${alertSymbol} Findings${alertSymbol}\n`)
     for (var a in alerts) {
         console.log('       ', alerts[a])
+    }
+
+    console.log(`\n${infoSymbol} Info${infoSymbol}\n`)
+
+
+    for (var i in info) {
+        console.log('       ', info[i])
     }
 
     console.log(`

