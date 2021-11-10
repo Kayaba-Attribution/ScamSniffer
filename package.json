@@ -1,0 +1,23 @@
+{
+  "name": "scamsniffer",
+  "version": "1.0.0",
+  "description": "### Dependecies:",
+  "main": "ParseTreeExample.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugenioclrc/ScamSniffer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eugenioclrc/ScamSniffer/issues"
+  },
+  "homepage": "https://github.com/eugenioclrc/ScamSniffer#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "treeify": "^1.1.0"
+  }
+}
