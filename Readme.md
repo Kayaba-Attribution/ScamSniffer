@@ -224,6 +224,11 @@ All alerts are added to the alert array and displayed at the end.
     * add()
     * '+'
     * '+='
+* Subtraction Identification:
+    * sub()
+    * '-'
+    * '-='
+* Hidden Mint/Burn functions ( |adds-minus| > 0)
 ### To run:
 ```
 node Sniffer.js
