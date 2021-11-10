@@ -3,8 +3,10 @@ const fs = require('fs');
 const parser = require('@solidity-parser/parser');
 const treeify = require('treeify');
 const colors = require('colors');
+const { performance } = require('perf_hooks');
 
 function parse(file) {
+    var start = performance.now();
     let node_kind;
     let alerts = [];
     let info = []
@@ -347,8 +349,8 @@ function parse(file) {
     ${payableSymbol} = payable function
     ${mutationSymbol} = non-constant function
     `);
-
-
+    var end = performance.now();
+    console.log('Run Time ' + (end - start) + ' ms.');
 }
 
 

@@ -5,12 +5,13 @@
 * @solidity-parser/parser
 * treeify
 * colors 
+* perf_hooks
 
 ### Installation:
 
 Git clone and run:
 
-```npm add @solidity-parser/parser treeify colors```
+```npm add @solidity-parser/parser treeify colors perf_hooks```
 
 ### General Logic
 ***
@@ -32,6 +33,29 @@ Takes a contract file and returns the findings.
     * ContractDefinition() library, interface, contract
     * StateVariableDeclaration() variables declarations
     * FunctionDefinition() functions
+
+## Current Features:
+
+* Extra Statements Identification   (modular but could fire an alert one a good statement)
+* Extra Modifiers Identification    (only on _transfer atm)
+* Addition Identification:
+    * add()
+    * '+'
+    * '+='
+* Subtraction Identification:
+    * sub()
+    * '-'
+    * '-='
+* Hidden Mint/Burn functions ( |adds-minus| > 0)
+### To run:
+```
+node Sniffer.js
+```
+Install Surya (not required but cool)
+
+npm install -g surya
+
+https://github.com/ConsenSys/surya
 
 ### Explanation of development
 ```
@@ -215,26 +239,3 @@ for (let s of node.body.statements) {
 ```
 
 All alerts are added to the alert array and displayed at the end.
-
-## Current Features:
-
-* Extra Statements Identification   (modular but could fire an alert one a good statement)
-* Extra Modifiers Identification    (only on _transfer atm)
-* Addition Identification:
-    * add()
-    * '+'
-    * '+='
-* Subtraction Identification:
-    * sub()
-    * '-'
-    * '-='
-* Hidden Mint/Burn functions ( |adds-minus| > 0)
-### To run:
-```
-node Sniffer.js
-```
-Install Surya (not required but cool)
-
-npm install -g surya
-
-https://github.com/ConsenSys/surya
