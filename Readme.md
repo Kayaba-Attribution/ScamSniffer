@@ -49,7 +49,10 @@ Takes a contract file and returns the findings.
 * Hidden Mint/Burn functions ( |adds-minus| > 0)
 ### To run:
 ```
-node Sniffer.js
+node Sniffer.js -h
+node Sniffer.js -f contracts/test.sol
+node Sniffer.js -f contracts/test.sol --ast
+node Sniffer.js -f contracts/test.sol --ast --tree
 ```
 Install Surya (not required but cool)
 

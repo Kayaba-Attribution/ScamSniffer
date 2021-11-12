@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/eugenioclrc/ScamSniffer#readme",
   "dependencies": {
+    "@solidity-parser/parser": "^0.14.0",
+    "args": "^5.0.1",
     "colors": "^1.4.0",
+    "perf_hooks": "0.0.1",
     "treeify": "^1.1.0"
   }
 }
