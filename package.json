@@ -1,0 +1,26 @@
+{
+  "name": "scamsniffer",
+  "version": "1.0.0",
+  "description": "### Dependecies:",
+  "main": "Sniffer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kayaba-Attribution/ScamSniffer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kayaba-Attribution/ScamSniffer/issues"
+  },
+  "homepage": "https://github.com/Kayaba-Attribution/ScamSniffer#readme",
+  "dependencies": {
+    "@solidity-parser/parser": "^0.14.0",
+    "args": "^5.0.1",
+    "colors": "^1.4.0",
+    "perf_hooks": "0.0.1",
+    "treeify": "^1.1.0"
+  }
+}

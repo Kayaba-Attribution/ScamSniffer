@@ -1,11 +1,11 @@
-
+const args = require('args');
 const fs = require('fs');
 const parser = require('@solidity-parser/parser');
 const treeify = require('treeify');
 const colors = require('colors');
 const { performance } = require('perf_hooks');
 
-function parse(file) {
+function parse(file, printast = false, printTree = false) {
     var start = performance.now();
     let node_kind;
     let alerts = [];
@@ -19,9 +19,14 @@ function parse(file) {
             throw err;
         }
     })();
-    console.log(ast)
 
-    console.log(treeify.asTree(ast, true));
+    if(printast) {
+        console.log(ast);
+    }
+
+    if(printTree){
+        console.log(treeify.asTree(ast, true));
+    }
 
     noColorOutput = false;
     let uses_totalSupply = false;
@@ -354,6 +359,14 @@ function parse(file) {
 }
 
 
-parse('contracts/test.sol');
-//parse('contracts/ERC20.sol');
+ 
+args
+  .option('ast', 'Print AST')
+  .option('tree', 'Print tree')
+  .option('file', 'File to scan', ['f'])
+  //'contracts/test.sol'
+  
+
+const flags = args.parse(process.argv);
+parse(flags.file[0], flags.ast, flags.tree);
 
