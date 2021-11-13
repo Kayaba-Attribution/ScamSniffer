@@ -11,7 +11,7 @@
 
 Git clone and run:
 
-```npm add @solidity-parser/parser treeify colors perf_hooks```
+```npm i```
 
 ### General Logic
 ***
