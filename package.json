@@ -22,5 +22,8 @@
     "colors": "^1.4.0",
     "perf_hooks": "0.0.1",
     "treeify": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0"
   }
 }
