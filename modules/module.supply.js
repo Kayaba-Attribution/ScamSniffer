@@ -37,10 +37,10 @@ module.exports = function run(ast) {
     });
 
     if(uses_totalSupply) {
-        ret.logs.push(chalk.green('Uses uint256 _totalSupply'));
+        ret.log.push(chalk.green('Uses uint256 _totalSupply'));
     }
     if(has_totalSupply) {
-        ret.logs.push(chalk.green('Uses _totalSupply'));
+        ret.log.push(chalk.green('Uses _totalSupply'));
     } else {
         ret.findings.push(chalk.red('[Not using _totalSupply" possible hidden mint'));
     }

@@ -96,7 +96,6 @@ function parse(content, printast = false, printTree = false) {
                 console.log(`Using Contract as Interface ${node.name}`);
                 return;
             }
-
             
             // check the statements on a function vs a whitelist if not in it then alert is sent
             function checkExtraStatements(node_name, white_list, statements) {
@@ -270,7 +269,7 @@ function parse(content, printast = false, printTree = false) {
                 if (sums < subs) {
                     alerts.push(`[Hidden Burn] at "${node.name}" {${sums} sums | ${subs} subtractions}`.red);
                 }
-                console.log(`${sums} sums | ${subs} subtractions on ${node.name}`);
+                //console.log(`${sums} sums | ${subs} subtractions on ${node.name}`);
 
             }
 
