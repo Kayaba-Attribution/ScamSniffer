@@ -13,7 +13,7 @@ module.exports = function run(ast) {
             // find mint functions declarations
             let mint_names = ['mint', '_mint', 'Mint'];
             if (mint_names.includes(node.name) && parentNode.kind == 'contract') {
-                ret.findings.push(chalk.red(` [Mint Function] ${node.name}`));
+                ret.findings.push(chalk.red(` [Mint Function] name: ${node.name}`));
             }
 
         }
