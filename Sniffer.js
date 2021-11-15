@@ -20,11 +20,16 @@ function parse(content, printast = false, printTree = false) {
 
     if(printast) {
         console.log(ast);
-        //fs.writeFileSync('./tmp/test.txt', JSON.stringify(ast));
     }
 
     if(printTree){
         console.log(treeify.asTree(ast, true));
+    }
+
+    if(flags.saveast){
+        fs.writeFileSync('./tmp/ast.txt', '');
+        fs.writeFileSync('./tmp/ast.txt', JSON.stringify(ast));
+        console.log("AST saved to ./tmp/ast.txt")
     }
 
     console.log(`
@@ -146,6 +151,7 @@ function parse(content, printast = false, printTree = false) {
  
 args
     .option('ast', 'Print AST')
+    .option('saveast', 'Save AST')
     .option('tree', 'Print tree')
     .option('file', 'File to scan', ['f']);
 //'contracts/test.sol'
