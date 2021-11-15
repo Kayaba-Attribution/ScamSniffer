@@ -19,8 +19,12 @@
   "dependencies": {
     "@solidity-parser/parser": "^0.14.0",
     "args": "^5.0.1",
+    "chalk": "^4.1.2",
     "colors": "^1.4.0",
     "perf_hooks": "0.0.1",
     "treeify": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0"
   }
 }
