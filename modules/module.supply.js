@@ -38,11 +38,14 @@ module.exports = function run(ast) {
 
     if(uses_totalSupply) {
         ret.log.push(chalk.green(' Uses uint256 _totalSupply'));
-    }
-    if(has_totalSupply) {
-        ret.log.push(chalk.green(' Uses _totalSupply'));
     } else {
-        ret.findings.push(chalk.red(' [Not using _totalSupply" possible hidden mint'));
+        ret.findings.push(chalk.red(' [Not using uint256 _totalSupply] possible hidden mint'));
+    }
+
+    if(has_totalSupply) {
+        ret.log.push(chalk.green(' Uses totalSupply getter'));
+    } else {
+        ret.findings.push(chalk.red(' [Not using totalSupply getter] possible hidden mint'));
     }
     return ret;
 };

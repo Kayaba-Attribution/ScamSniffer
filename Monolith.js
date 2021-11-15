@@ -19,9 +19,9 @@ function parse(file) {
             throw err;
         }
     })();
-    console.log(ast)
+    console.log(ast.children[1])
 
-    console.log(treeify.asTree(ast, true));
+    //console.log(treeify.asTree(ast, true));
 
     noColorOutput = false;
     let uses_totalSupply = false;
@@ -354,6 +354,6 @@ function parse(file) {
 }
 
 
-parse('contracts/test.sol');
+parse('contracts/supply.sol');
 //parse('contracts/ERC20.sol');
 

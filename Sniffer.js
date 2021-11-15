@@ -20,6 +20,7 @@ function parse(content, printast = false, printTree = false) {
 
     if(printast) {
         console.log(ast);
+        //fs.writeFileSync('./tmp/test.txt', JSON.stringify(ast));
     }
 
     if(printTree){

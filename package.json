@@ -4,7 +4,7 @@
   "description": "### Dependecies:",
   "main": "Sniffer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -19,8 +19,10 @@
   "dependencies": {
     "@solidity-parser/parser": "^0.14.0",
     "args": "^5.0.1",
+    "chai": "^4.3.4",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
+    "mocha": "^9.1.3",
     "perf_hooks": "0.0.1",
     "treeify": "^1.1.0"
   },
