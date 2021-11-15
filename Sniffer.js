@@ -26,22 +26,33 @@ function parse(content, printast = false, printTree = false) {
         console.log(treeify.asTree(ast, true));
     }
 
+    console.log(`
+   / \__            _______________     .  '  *    .  . ' .  '  ___  __    _   __  __ 
+  (    @\____  |==c(___(o(______(_()         .  *  *  -+-  *   / __|/ __| /_\\ |  \\/  |
+  /         O      /|\\               .    * .    '  *  .      \\__ \\ (__ / _ \\| |\\/| |
+ /   (_____/      / | \\                   * .  ' .  .  *  '   |___/\\___/_/ \\_\\_|  |_|
+/_____/          /  |  \\                -+-    *  .   '  . *
+« Scam Sniffer v0.1.0 »    `)
+
     const noColorOutput = false;
 
     Object.keys(modules).forEach(m => {
-        console.log('running module', m);
-        console.log('===========================');
+        let title = '║ running module '+ m + " ║"
+        console.log(`╔${'═'.repeat(title.length - 2)}╗`);
+        console.log(title);
+        console.log(`╠${'═'.repeat(title.length - 2)}╝`);
         const report = modules[m](ast);
 
+        let sep = `║ ╠══`
+
         if (report.log && report.log.length) {
-            // console.log('LOGS');
-            report.log.forEach(e => console.log(e));
+            console.log('╠═╦═ LOGS');
+            report.log.forEach(e => console.log(sep + e));
         }
         if (report.findings && report.findings.length) {
-            console.log('Findings:');
-            report.findings.forEach(e => console.log(e));
+            console.log('╠═╦═ Findings:');
+            report.findings.forEach(e => console.log(sep + e));
         }
-        console.log('\n\n');
     });
 
     parser.visit(ast, {
@@ -87,40 +98,6 @@ function parse(content, printast = false, printTree = false) {
                 modifiers += m.name;
             }
 
-            try {
-                let test = node.body.statements;
-            } catch (e) {
-                if (e.name != 'TypeError') {
-                    console.log(`[ERROR] at no statements detections at ${node.name}`.red);
-                }
-                console.log(`Using Contract as Interface ${node.name}`);
-                return;
-            }
-            
-            // check the statements on a function vs a whitelist if not in it then alert is sent
-            function checkExtraStatements(node_name, white_list, statements) {
-                for (let s of statements) {
-                    if (!white_list.includes(s.type)) {
-                        alerts.push(`[Extra Statement "${s.type}" on ${node_name}]`.red);
-                    }
-                }
-            }
-
-            // Check number of statements on transferFrom
-            if (node.name == 'transferFrom' && parentNode.kind != 'interface') {
-                //number_statements = Object.keys(node.body.statements).length;
-                let transferFrom_white_list = ['ExpressionStatement', 'EmitStatement', 'ReturnStatement'];
-                checkExtraStatements(node.name, transferFrom_white_list, node.body.statements);
-
-            }
-
-            // Check extra statements on _approve TODO: create modular function
-            if (node.name == '_approve' && parentNode.kind != 'interface') {
-                //number_statements = Object.keys(node.body.statements).length;
-                let approve_white_list = ['ExpressionStatement', 'EmitStatement', 'ReturnStatement'];
-                checkExtraStatements(node.name, approve_white_list, node.body.statements);
-
-            }
 
             // Check extra modifiers on _transfer TODO: create modular function
             if (node.name == '_transfer' && parentNode.kind != 'interface') {
@@ -128,12 +105,6 @@ function parse(content, printast = false, printTree = false) {
                     if (modifiers)
                         alerts.push(`[Extra Modifier "${m.name}" on _transfer]`.red);
                 }
-            }
-
-            // find mint functions declarations
-            let mint_names = ['mint', '_mint', 'Mint'];
-            if (mint_names.includes(node.name) && parentNode.kind == 'contract') {
-                alerts.push(`[Mint Function] ${node.name}`.red);
             }
 
             // Search for Hidden Mints (+, and add()) on any function other that the whitelisted
