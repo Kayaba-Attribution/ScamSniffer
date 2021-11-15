@@ -1,4 +1,4 @@
-# KAYABA SCAM SNIFFER
+# KAYABA & 0X4NON SCAM SNIFFER
 
 ### Dependecies:
 
@@ -6,6 +6,7 @@
 * treeify
 * colors 
 * perf_hooks
+* chalk
 
 ### Installation:
 
