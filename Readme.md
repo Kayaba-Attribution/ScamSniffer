@@ -64,6 +64,9 @@ node Sniffer.js -f contracts/test.sol
 node Sniffer.js -f contracts/test.sol --ast
 node Sniffer.js -f contracts/test.sol --ast --tree
 ```
+
+![image](https://user-images.githubusercontent.com/63566185/141839630-e272a4eb-8676-4583-9cb8-ead54459c1b5.png)
+
 Install Surya (not required but cool)
 
 npm install -g surya
