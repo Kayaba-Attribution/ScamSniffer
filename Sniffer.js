@@ -106,7 +106,7 @@ function parse(content, printast = false, printTree = false) {
                         alerts.push(`[Extra Modifier "${m.name}" on _transfer]`.red);
                 }
             }
-
+            //
             console.log(`    - ${spec} ${name}${payable}${mutating}`);
             if (modifiers) {
                 console.log(`       - modifiers: ${modifiers}`);
