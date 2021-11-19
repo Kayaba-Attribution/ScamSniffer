@@ -19,12 +19,15 @@
   "dependencies": {
     "@solidity-parser/parser": "^0.14.0",
     "args": "^5.0.1",
+    "axios": "^0.24.0",
     "chai": "^4.3.4",
     "chalk": "^4.1.2",
     "colors": "^1.4.0",
+    "dotenv": "^10.0.0",
     "mocha": "^9.1.3",
     "perf_hooks": "0.0.1",
-    "treeify": "^1.1.0"
+    "treeify": "^1.1.0",
+    "web3": "^1.6.1"
   },
   "devDependencies": {
     "eslint": "^8.2.0"

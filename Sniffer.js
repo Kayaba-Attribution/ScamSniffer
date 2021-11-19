@@ -4,6 +4,10 @@ const parser = require('@solidity-parser/parser');
 const treeify = require('treeify');
 const colors = require('colors');
 const { performance } = require('perf_hooks');
+require('dotenv').config();
+const axios = require('axios');
+const web3 = require('web3')
+
 
 const normalizedPath = require('path').join(__dirname, 'modules');
 
@@ -12,7 +16,7 @@ const modules = fs.readdirSync(normalizedPath).reduce(function(els, file) {
     return els;
 }, {});
 
-function parse(content, printast = false, printTree = false) {
+function parse(content, printast = false, printTree = false, saveast = false) {
     var start = performance.now();
     let alerts = [];
     let info = [];
@@ -26,7 +30,7 @@ function parse(content, printast = false, printTree = false) {
         console.log(treeify.asTree(ast, true));
     }
 
-    if(flags.saveast){
+    if(saveast){
         fs.writeFileSync('./tmp/ast.txt', '');
         fs.writeFileSync('./tmp/ast.txt', JSON.stringify(ast));
         console.log("AST saved to ./tmp/ast.txt")
@@ -153,23 +157,60 @@ args
     .option('ast', 'Print AST')
     .option('saveast', 'Save AST')
     .option('tree', 'Print tree')
-    .option('file', 'File to scan', ['f']);
-//'contracts/test.sol'
+    .option('file', 'File to scan')
+    .option('address', 'Scan live contract chain=address')
+
   
   
 const flags = args.parse(process.argv);
-const file = flags.file[0];
-if(file === 'f' ){
-    console.log('add flag -f file.sol');
-    process.exit(1);
-}
-if (!fs.existsSync(file)) {
-    console.log(file);
-    console.error('File not found');
-    process.exit(1);
-}
-  
-const content = fs.readFileSync(file).toString('utf-8');
+//const file = flags.file[0];
+let content = ''
 
-parse(content, flags.ast, flags.tree);
+if(flags.file){
+    const file = flags.file;
+    console.log("File given:", file);
+    if (!fs.existsSync(file)) {
+        console.error('File not found');
+        process.exit(1);
+    }
+    
+    content = fs.readFileSync(file).toString('utf-8');
+    parse(content, flags.ast, flags.tree, flags.saveast);
+
+}
+
+async function FetchCode(address) {
+    let callABI = "https://api.bscscan.com/api?module=contract&action=getsourcecode&address=" + address + "&apikey="+ process.env.BSC_API_KEY +".json"
+    const response = await axios.get(callABI)
+    //console.log(response)
+    //console.log(callABI)
+
+    return response.data.result[0].SourceCode
+}
+
+
+if(flags.address){
+    let chain = flags.address.slice(0,3)
+    let address = flags.address.slice(4)
+
+    console.log("Chain:", chain);
+    console.log("Address:", address);
+
+    if(!web3.utils.isAddress(address)){
+        console.log("Address is not a valid ETH address")
+        process.exit(1);
+    }
+
+    let call_promise = FetchCode(address)
+    call_promise.then(result => {
+        if(result == ""){
+            console.log(`Contract ${address} on ${chain} is not verified`)
+        }else{
+            parse(result, flags.ast, flags.tree, flags.saveast);
+        }
+    });
+}
+
+
+//parse(content, flags.ast, flags.tree, flags.saveast);
 
