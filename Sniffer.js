@@ -16,7 +16,7 @@ const modules = fs.readdirSync(normalizedPath).reduce(function(els, file) {
     return els;
 }, {});
 
-function parse(content, printast = false, printTree = false, saveast = false) {
+function parse(content, printast = false, printTree = false, saveast = false, savecode = false) {
     var start = performance.now();
     let alerts = [];
     let info = [];
@@ -30,10 +30,18 @@ function parse(content, printast = false, printTree = false, saveast = false) {
         console.log(treeify.asTree(ast, true));
     }
 
+    if(savecode){
+        console.log(`Saving CODE of ${address} on ${chain} `)
+        fs.writeFileSync(`./tmp/${chain}_${address}.sol`, '');
+        fs.writeFileSync(`./tmp/${chain}_${address}.sol`, code);
+        console.log(`AST saved to ./tmp/${chain}_${address}.sol`)
+    }
+
     if(saveast){
-        fs.writeFileSync('./tmp/ast.txt', '');
-        fs.writeFileSync('./tmp/ast.txt', JSON.stringify(ast));
-        console.log("AST saved to ./tmp/ast.txt")
+        console.log(`Saving AST of ${address} on ${chain} `)
+        fs.writeFileSync(`./tmp/${chain}_${address}.txt`, '');
+        fs.writeFileSync(`./tmp/${chain}_${address}.txt`, JSON.stringify(ast));
+        console.log(`AST saved to ./tmp/${chain}_${address}.txt`)
     }
 
     console.log(`
@@ -156,6 +164,7 @@ function parse(content, printast = false, printTree = false, saveast = false) {
 args
     .option('ast', 'Print AST')
     .option('saveast', 'Save AST')
+    .option('savecode', 'Save Code')
     .option('tree', 'Print tree')
     .option('file', 'File to scan')
     .option('address', 'Scan live contract chain=address')
@@ -188,10 +197,12 @@ async function FetchCode(address) {
     return response.data.result[0].SourceCode
 }
 
-
+let chain = '';
+let address = '';
+let code = ''
 if(flags.address){
-    let chain = flags.address.slice(0,3)
-    let address = flags.address.slice(4)
+    chain = flags.address.slice(0,3)
+    address = flags.address.slice(4)
 
     console.log("Chain:", chain);
     console.log("Address:", address);
@@ -206,7 +217,8 @@ if(flags.address){
         if(result == ""){
             console.log(`Contract ${address} on ${chain} is not verified`)
         }else{
-            parse(result, flags.ast, flags.tree, flags.saveast);
+            code = result;
+            parse(result, flags.ast, flags.tree, flags.saveast, flags.savecode);
         }
     });
 }
