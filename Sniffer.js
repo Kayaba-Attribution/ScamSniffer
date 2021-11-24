@@ -7,6 +7,7 @@ const { performance } = require('perf_hooks');
 require('dotenv').config();
 const axios = require('axios');
 const web3 = require('web3')
+const HoneyPotChecker = require('./honeypotBot')
 
 
 const normalizedPath = require('path').join(__dirname, 'modules');
@@ -191,9 +192,6 @@ if(flags.file){
 async function FetchCode(address) {
     let callABI = "https://api.bscscan.com/api?module=contract&action=getsourcecode&address=" + address + "&apikey="+ process.env.BSC_API_KEY +".json"
     const response = await axios.get(callABI)
-    //console.log(response)
-    //console.log(callABI)
-
     return response.data.result[0].SourceCode
 }
 
@@ -221,6 +219,8 @@ if(flags.address){
             parse(result, flags.ast, flags.tree, flags.saveast, flags.savecode);
         }
     });
+    let c = HoneyPotChecker(address)
+    c.then(r => { console.log(r) })
 }
 
 
