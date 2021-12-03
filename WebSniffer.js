@@ -20,6 +20,7 @@ function parse(content) {
     var start = performance.now();
     let alerts = [];
     let info = [];
+    let modifiers_arr = []
     const ast = parser.parse(content);
 
 
@@ -93,6 +94,7 @@ function parse(content) {
             for (let m of node.modifiers) {
                 if (modifiers) modifiers += ',';
                 modifiers += m.name;
+                //modifiers_arr.push([node.name, modifiers])
             }
 
 
@@ -108,6 +110,7 @@ function parse(content) {
             if (modifiers) {
                 console.log(`       - modifiers: ${modifiers}`);
             }
+            //console.log(modifiers_arr)
         }
     });
 
@@ -165,7 +168,7 @@ async function ParseWeb(address) {
     }
 
     let call_promise = FetchCode(address)
-    // this gave me head
+    // this gave me headaches
     await call_promise.then(result => {
         if(result == ""){
             console.log(`Contract ${address} on ${chain} is not verified`)
