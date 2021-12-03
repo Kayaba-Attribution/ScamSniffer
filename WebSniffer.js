@@ -106,10 +106,10 @@ function parse(content) {
                 }
             }
             //
-            console.log(`    - ${spec} ${name}${payable}${mutating}`);
-            if (modifiers) {
-                console.log(`       - modifiers: ${modifiers}`);
-            }
+            // console.log(`    - ${spec} ${name}${payable}${mutating}`);
+            // if (modifiers) {
+            //     console.log(`       - modifiers: ${modifiers}`);
+            // }
             //console.log(modifiers_arr)
         }
     });
@@ -186,7 +186,7 @@ async function ParseWeb(address) {
 let alert_pkg = ParseWeb('0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3')
 alert_pkg.then(result => {
     console.log("FINISHED!")
-    for (var a in result) {
-        console.log(result[a]);
-    }
+    // for (var a in result) {
+    //     console.log(result[a]);
+    // }
 });

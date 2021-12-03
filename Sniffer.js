@@ -223,6 +223,6 @@ if(flags.address){
     c.then(r => { console.log(r) })
 }
 
-
+// command: node Sniffer.js -f contracts/test.sol
 //parse(content, flags.ast, flags.tree, flags.saveast);
 

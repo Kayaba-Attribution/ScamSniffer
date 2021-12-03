@@ -16,12 +16,12 @@ module.exports = function run(ast) {
                 modifiers += m.name;
                 ret.log.push([node.name, modifiers])
                 if (modifiers === "onlyOwner")
-                    priv_functions.push(node.name)
+                    priv_functions.push(`'${node.name}'`)
             }
 
         }
     });
-    ret.log.push(` onlyOwner: [${priv_functions}]`)
+    ret.log.push(` onlyOwner: ${priv_functions}`)
 
     return ret;
 };
